@@ -1,16 +1,15 @@
 [tool.poetry]
 name = "alphasort"
-version = "0.1.8"
+version = "0.1.16"
 description = "Sort lines within regions of a file."
 readme = "README.md"
 license = "LICENSE"
 authors = ["Josiah Coad <josiah@coad.net>"]
+packages = [{ include = "src" }]
 
 [tool.poetry.scripts]
 alphasort = "src.alphasort:main"
 
-[tool.setuptools.packages.find]
-where = ["alphasort"]
 
 [tool.poetry.dependencies]
 python = "^3.13"
