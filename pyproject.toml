@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "alphasort"
-version = "0.1.6"
+version = "0.1.8"
 description = "Sort lines within regions of a file."
 readme = "README.md"
 license = "LICENSE"
 authors = ["Josiah Coad <josiah@coad.net>"]
 
 [tool.poetry.scripts]
-alphasort = "alphasort.cli:main"
+alphasort = "src.alphasort:main"
 
 [tool.setuptools.packages.find]
 where = ["alphasort"]
@@ -44,4 +44,5 @@ disable = [
     "missing-module-docstring",
     "missing-function-docstring",
     "missing-class-docstring",
+    "unspecified-encoding",
 ]

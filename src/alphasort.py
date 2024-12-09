@@ -1,22 +1,25 @@
 import argparse
 from pathlib import Path
 
-import tomllib
-
-config_path = Path(__file__).parent / "config.toml"
-with open(config_path, "rb") as f:
-    CONFIG = tomllib.load(f)
-
+delimiters_comment = {
+    "#": [".py", ".sh", ".yaml", ".yml", ".rb", ".pl", ".r"],
+    "//": [".js", ".ts", ".c", ".cpp", ".java", ".cs", ".php", ".go", ".swift"],
+    "<!--": [".html", ".xml", ".xhtml"],
+    "--": [".sql", ".hs", ".lua"],
+    "%": [".tex", ".m", ".matlab"],
+    "'": [".vb", ".vbs"],
+    ";": [".asm"],
+    "REM": [".bat"],
+}
 
 COMMENT_DELIMITERS = {
-    ext: delim
-    for delim, file_exts in CONFIG["delimiters"]["comment"].items()
-    for ext in file_exts
+    ext: delim for delim, file_exts in delimiters_comment.items() for ext in file_exts
 }
+
 COMMENT_DELIMITER_FALLBACK = "#"
-KEYWORD = CONFIG["delimiters"]["keyword"]
-KEYWORD_BEGIN = CONFIG["delimiters"]["begin"]
-KEYWORD_END = CONFIG["delimiters"]["end"]
+KEYWORD = "alphasort"
+KEYWORD_BEGIN = "on"
+KEYWORD_END = "off"
 
 
 def sort_alpha_regions(filepath: str) -> None:
@@ -61,12 +64,8 @@ def sort_alpha_regions_in_lines(lines: list[str], comment_delimiter: str) -> lis
     return sorted_lines
 
 
-def process_directory(
-    directory: str,
-    file_extension: str = "",
-    verbose: bool = False,
-) -> None:
-    for filepath in Path(directory).rglob(f"*{file_extension}"):
+def process_directory(glob: str, verbose: bool) -> None:
+    for filepath in Path(".").rglob(glob):
         if filepath.is_file():
             if verbose:
                 print(f"Sorting {filepath}")
@@ -75,11 +74,10 @@ def process_directory(
 
 def main():
     parser = argparse.ArgumentParser(description="Sort alpha regions.")
-    parser.add_argument("directory", help="The directory to process.")
-    parser.add_argument("--suffix", default="", help="filename suffix to match")
+    parser.add_argument("glob", default="*", help="glob pattern to match")
     parser.add_argument("--verbose", "-v", action="store_true", help="verbose")
     args = parser.parse_args()
-    process_directory(args.directory, args.suffix, args.verbose)
+    process_directory(args.glob, args.verbose)
 
 
 if __name__ == "__main__":
