@@ -3,8 +3,10 @@ from pathlib import Path
 
 import tomllib
 
-with open("config.toml", "rb") as f:
+config_path = Path(__file__).parent / "config.toml"
+with open(config_path, "rb") as f:
     CONFIG = tomllib.load(f)
+
 
 COMMENT_DELIMITERS = {
     ext: delim
