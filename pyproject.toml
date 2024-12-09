@@ -17,6 +17,7 @@ pre-commit = "^4.0.1"
 black = "^24.10.0"
 pytest = "^8.3.4"
 ruff = "^0.8.2"
+mypy = "^1.13.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -25,11 +26,15 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 line-length = 88
 
-[tool.isort]
-line_length = 88
-
 [tool.mypy]
 python_version = "3.13"
 
 [tool.ruff]
 line-length = 88
+
+[tool.pylint]
+disable = [
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+]
