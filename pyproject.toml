@@ -2,8 +2,15 @@
 name = "alphasort"
 version = "0.1.0"
 description = "Sort lines within regions of a file."
-authors = ["Your Name <josiah@coad.net>"]
+readme = "README.md"
+license = "LICENSE"
+authors = ["Josiah Coad <josiah@coad.net>"]
 
+[tool.poetry.scripts]
+alphasort = "alphasort.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["alphasort"]
 
 [tool.poetry.dependencies]
 python = "^3.13"
