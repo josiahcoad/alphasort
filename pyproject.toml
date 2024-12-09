@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "alphasort"
+version = "0.1.0"
+description = "Sort lines within regions of a file."
+authors = ["Your Name <josiah@coad.net>"]
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+jira = "^3.8.0"
+requests = "^2.32.3"
+tomli = "^2.2.1"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.3.2"
+pre-commit = "^4.0.1"
+black = "^24.10.0"
+pytest = "^8.3.4"
+ruff = "^0.8.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+line_length = 88
+
+[tool.mypy]
+python_version = "3.13"
+
+[tool.ruff]
+line-length = 88
