@@ -1,4 +1,6 @@
 import argparse
+import os
+from glob import glob
 from pathlib import Path
 
 delimiters_comment = {
@@ -64,12 +66,19 @@ def sort_alpha_regions_in_lines(lines: list[str], comment_delimiter: str) -> lis
     return sorted_lines
 
 
-def process_directory(glob: str, verbose: bool) -> None:
-    for filepath in Path(".").rglob(glob):
-        if filepath.is_file():
+def process_directory(path: str, verbose: bool) -> None:
+    """
+    `path` examples:
+    - path/to/directory
+    - path/to/directory/*/*.py
+    - path/to/directory/test.py
+    - path/to/directory/**/test.py
+    """
+    for filepath in glob(path):
+        if os.path.isfile(filepath):
             if verbose:
-                print(f"Sorting {filepath}")
-            sort_alpha_regions(str(filepath))
+                print(f"Sorting {os.path.relpath(filepath)}")
+            sort_alpha_regions(filepath)
 
 
 def main():

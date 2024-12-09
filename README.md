@@ -15,9 +15,9 @@ animals = [
 Now We want to add “cat” to this list...
 
 Either:
-1. dev remembers to insert in correct location (or insert anywhere and then sort)
-2. dev forgets and PR reviewers have to leave comment about it (just another thing prolonging PR time)
-3. the list falls out of sorting for a while then gets included as a refactor in a PR, adding many lines changed and inflating PR size
+1) dev remembers to insert in correct location (or insert anywhere and then sort)
+2) dev forgets and PR reviewers have to leave comment about it (just another thing prolonging PR time)
+3) the list falls out of sorting for a while then gets included as a refactor in a PR, adding many lines changed and inflating PR size
 
 ### Introducing _Alphasort_
 

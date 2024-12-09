@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "alphasort"
-version = "0.1.16"
+version = "0.1.18"
 description = "Sort lines within regions of a file."
 readme = "README.md"
 license = "LICENSE"
