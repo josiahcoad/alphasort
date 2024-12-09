@@ -44,7 +44,7 @@ pip install alphasort
 
 ### Usage
 ```bash
-pip install alphasort
+alphasort "./path/**/*.py"
 ```
 
 Also recommend adding it
