@@ -73,7 +73,7 @@ def alphasort_python() -> None:
     )
 
 
-def alphasort_json() -> None:
+def test_alphasort_json() -> None:
     with make_temp_file("json") as temp_file:
         # Given...
         with Path(temp_file).open("w") as f:
@@ -101,12 +101,13 @@ def alphasort_json() -> None:
         result
         == textwrap.dedent(
             """
-        # alphasort: on
-
-        banana
-        carrot
-        # alphasort: off
-        apple
-        """
+            {
+                "_comment": "alphasort: on",
+                "banana": 1,
+                "carrot": 2,
+                "_comment": "alphasort: off",
+                "apple": 2,
+            }
+            """
         ).strip()
     )
