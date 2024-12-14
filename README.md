@@ -45,16 +45,21 @@ pip install alphasort
 
 ### Usage
 ```bash
-alphasort "./path/**/*.py"
+alphasort
 ```
 
+You can also pass arguments to select a path (with glob) and ignore a path.
+
+### Automating
 Also recommend adding it
 - to your IDE on-save commands
 - to your pre-commit
 - to your CI checks
 
+(psss. check out the github repo to see how we've done all 3 of these to run alphasort on `alphasort`)
+
 ### Argcomplete
-This project is equiped with argcomplete which you can enable via running this:
+This project is equiped with argcomplete which you can enable via running:
 
 `eval "$(register-python-argcomplete alphasort)"`
 
@@ -65,7 +70,8 @@ This is inspired by other such macros like:
 # fmt: off
 mylist = [3, 2, 1]  # Black will not touch this line.
 # fmt: on
-
 ```
 
 I’m honestly surprised something like this doesn’t exist. But here it is now. So, you're welcome 😁
+
+Feel free to contribute if you'd like to see any additional features! 🎉
