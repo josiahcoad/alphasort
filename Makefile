@@ -42,5 +42,8 @@ deploy:
 checks:
 	pre-commit run --all-files
 
-.PHONY: all
+.PHONY: all pre-deploy
+
 all: install run
+
+pre-deploy: lint type-check test

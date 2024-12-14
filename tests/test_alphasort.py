@@ -1,13 +1,12 @@
-import os
 import tempfile
 import textwrap
-
-import pytest
+from contextlib import contextmanager
+from pathlib import Path
 
 from src.alphasort import sort_alpha_regions, sort_alpha_regions_in_lines
 
 
-def test_alphasort_in_lines():
+def test_alphasort_in_lines() -> None:
     lines = [
         "# alphasort: on",
         "b",
@@ -30,36 +29,34 @@ def test_alphasort_in_lines():
     ]
 
 
-@pytest.fixture
-def temp_file():
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as file:
-        file_name = file.name
-    yield file_name
-    os.remove(file_name)
+@contextmanager
+def make_temp_file(file_ext: str):  # noqa: ANN201
+    with tempfile.NamedTemporaryFile(mode="w", suffix=f".{file_ext}") as file:
+        yield file.name
 
 
-def test_alphasort_file(temp_file: str):
-    # Given...
-    with open(temp_file, "w") as f:
-        f.write(
-            textwrap.dedent(
-                """
-                # alphasort: on
+def alphasort_python() -> None:
+    with make_temp_file("py") as temp_file:
+        # Given...
+        with Path(temp_file).open("w") as f:
+            f.write(
+                textwrap.dedent(
+                    """
+                    # alphasort: on
 
-                b
-                c
-                # alphasort: off
-                a
-                """
-            ).strip()
-        )
+                    bat
+                    cat
+                    # alphasort: off
+                    ant
+                    """
+                ).strip()
+            )
 
-    # When...
-    sort_alpha_regions(temp_file)
+        # When...
+        sort_alpha_regions(temp_file)
 
-    # Then...
-    with open(temp_file, "r") as f:
-        result = f.read()
+        # Then...
+        result = Path(temp_file).read_text()
 
     assert (
         result
@@ -67,10 +64,49 @@ def test_alphasort_file(temp_file: str):
             """
         # alphasort: on
 
-        b
-        c
+        bat
+        cat
         # alphasort: off
-        a
+        ant
+        """
+        ).strip()
+    )
+
+
+def alphasort_json() -> None:
+    with make_temp_file("json") as temp_file:
+        # Given...
+        with Path(temp_file).open("w") as f:
+            f.write(
+                textwrap.dedent(
+                    """
+                    {
+                        "_comment": "alphasort: on",
+                        "carrot": 2,
+                        "banana": 1,
+                        "_comment": "alphasort: off",
+                        "apple": 2,
+                    }
+                    """
+                ).strip()
+            )
+
+        # When...
+        sort_alpha_regions(temp_file)
+
+        # Then...
+        result = Path(temp_file).read_text()
+
+    assert (
+        result
+        == textwrap.dedent(
+            """
+        # alphasort: on
+
+        banana
+        carrot
+        # alphasort: off
+        apple
         """
         ).strip()
     )

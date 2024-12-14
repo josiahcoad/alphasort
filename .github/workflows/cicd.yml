@@ -37,14 +37,8 @@ jobs:
       - name: Install dependencies
         run: make install
 
-      - name: Run tests
-        run: make test
-
-      - name: Run linter  
-        run: make lint
-
-      - name: Run type checker
-        run: make type-check
+      - name: Run pre-deploy
+        run: make pre-deploy
 
       - name: Deploy application
         run: |

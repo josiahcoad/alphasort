@@ -86,21 +86,10 @@ line-length = 88
 indent-width = 4
 target-version = "py311"
 
-[tool.ruff.lint.pylint]
-max-args = 10
+# Allow fix for all enabled rules (when `--fix`) is provided.
+unsafe-fixes = true
 
 [tool.ruff.lint]
-ignore = [
-    "S101",  # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
-    "UP038", # Checks for uses of isinstance/issubclass that take a tuple
-    # of types for comparison.
-    # Deactivated because it can make the code slow:
-    # https://github.com/astral-sh/ruff/issues/7871
-    "TID252", # We allow relative imports to parent modules
-    "FBT002", # We allow boolean default positional args
-    "COM812", # Ruff docs recommend to disable since the formatter takes care of this
-    "S105", # Hardcoded passwords should be checked by humans
-]
 
 select = [
     # alphasort: on
@@ -141,7 +130,6 @@ select = [
     "SLOT",
     "T10",
     "T20",
-    "TCH",
     "TID",
     "TRY",
     "UP",
@@ -160,11 +148,21 @@ select = [
     # alphasort: off
 ]
 
-# Allow fix for all enabled rules (when `--fix`) is provided.
+ignore = [
+    "S101",  # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
+    "UP038", # Checks for uses of isinstance/issubclass that take a tuple
+    # of types for comparison.
+    # Deactivated because it can make the code slow:
+    # https://github.com/astral-sh/ruff/issues/7871
+    "TID252", # We allow relative imports to parent modules
+    "FBT002", # We allow boolean default positional args
+    "COM812", # Ruff docs recommend to disable since the formatter takes care of this
+    "S105",   # Hardcoded passwords should be checked by humans
+]
+
+extend-unsafe-fixes = ["UP038"]
 fixable = ["ALL"]
 unfixable = []
-extend-unsafe-fixes = ["UP038"]
-unsafe-fixes = true
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
