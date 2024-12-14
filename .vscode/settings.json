@@ -2,33 +2,20 @@
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizeImports": "always",
-            "source.unusedImports": "always"
+            "source.unusedImports": "always",
+            "source.fixAll": "always",
         },
-        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnType": true
     },
-    "black-formatter.args": [
-        "--line-length",
-        "88",
-        "--preview",
-    ],
     "editor.formatOnSave": true,
     "editor.inlayHints.enabled": "off",
     "editor.rulers": [
         88
     ],
     "files.autoSave": "onFocusChange",
-    "isort.args": [
-        "--profile",
-        "black",
-        "--line-length",
-        "88",
-    ],
     "python.analysis.inlayHints.callArgumentNames": "partial",
     "python.analysis.typeCheckingMode": "strict",
-    "python.testing.pytestArgs": [
-        "tests"
-    ],
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "files.exclude": {
@@ -36,5 +23,13 @@
         "**/.mypy_cache": true,
         "**/.pytest_cache": true,
         "**/__pycache__": true,
+        ".ruff_cache": true,
+    },
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "cmd": "alphasort"
+            }
+        ]
     },
 }

@@ -1,5 +1,6 @@
 import argparse
 import os
+import re
 from glob import glob
 from pathlib import Path
 
@@ -12,6 +13,7 @@ delimiters_comment = {
     "'": [".vb", ".vbs"],
     ";": [".asm"],
     "REM": [".bat"],
+    '"_comment": "': [".json"],
 }
 
 COMMENT_DELIMITERS = {
@@ -25,8 +27,11 @@ KEYWORD_END = "off"
 
 
 def sort_alpha_regions(filepath: str) -> None:
-    with open(filepath, "r", encoding="utf-8") as file:
-        lines = file.readlines()
+    try:
+        with open(filepath, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+    except UnicodeDecodeError:
+        return
 
     comment_delimiter = COMMENT_DELIMITERS.get(
         Path(filepath).suffix, COMMENT_DELIMITER_FALLBACK
@@ -43,12 +48,16 @@ def sort_alpha_regions_in_lines(lines: list[str], comment_delimiter: str) -> lis
     buffer: list[str] = []
 
     for line in lines:
-        if f"{comment_delimiter} {KEYWORD}: {KEYWORD_BEGIN}" in line:
+        if re.search(
+            rf"{re.escape(comment_delimiter)}\s*{KEYWORD}:\s*{KEYWORD_BEGIN}", line
+        ):
             in_sort_block = True
             sorted_lines.append(line)
             continue
 
-        if f"{comment_delimiter} {KEYWORD}: {KEYWORD_END}" in line:
+        if re.search(
+            rf"{re.escape(comment_delimiter)}\s*{KEYWORD}:\s*{KEYWORD_END}", line
+        ):
             in_sort_block = False
             sorted_lines.extend(sorted(buffer))
             sorted_lines.append(line)
@@ -74,7 +83,7 @@ def process_directory(path: str, verbose: bool) -> None:
     - path/to/directory/test.py
     - path/to/directory/**/test.py
     """
-    for filepath in glob(path):
+    for filepath in glob(path, recursive=True):
         if os.path.isfile(filepath):
             if verbose:
                 print(f"Sorting {os.path.relpath(filepath)}")
@@ -83,8 +92,10 @@ def process_directory(path: str, verbose: bool) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Sort alpha regions.")
-    parser.add_argument("glob", default="*", help="glob pattern to match")
+    parser.add_argument("glob", nargs="?", default="**/*", help="glob pattern to match")
     parser.add_argument("--verbose", "-v", action="store_true", help="verbose")
+    args = parser.parse_args()
+    process_directory(args.glob, args.verbose)
     args = parser.parse_args()
     process_directory(args.glob, args.verbose)
 

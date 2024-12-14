@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "alphasort"
-version = "0.1.18"
+version = "0.1.20"
 description = "Sort lines within regions of a file."
 readme = "README.md"
 license = "LICENSE"
@@ -10,33 +10,22 @@ packages = [{ include = "src" }]
 [tool.poetry.scripts]
 alphasort = "src.alphasort:main"
 
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-jira = "^3.8.0"
 requests = "^2.32.3"
 tomli = "^2.2.1"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.2"
 pre-commit = "^4.0.1"
-black = "^24.10.0"
 pytest = "^8.3.4"
 ruff = "^0.8.2"
 mypy = "^1.13.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-line-length = 88
-
-[tool.mypy]
-python_version = "3.13"
-
-[tool.ruff]
-line-length = 88
+pytest-xdist = "^3.6.1"
 
 [tool.pylint]
 disable = [
@@ -45,3 +34,143 @@ disable = [
     "missing-class-docstring",
     "unspecified-encoding",
 ]
+
+# ==== TOOLS ====
+# ==== pytest ====
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-n auto"
+
+# ==== Coverage ====
+[tool.coverage.run]
+omit = ["tests/*"]
+
+# ==== mypy ====
+[tool.mypy]
+python_version = "3.13"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+
+# ==== ruff ====
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    # alphasort: on
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    # alphasort: off
+]
+line-length = 88
+indent-width = 4
+target-version = "py311"
+
+[tool.ruff.lint.pylint]
+max-args = 10
+
+[tool.ruff.lint]
+ignore = [
+    "S101",  # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
+    "UP038", # Checks for uses of isinstance/issubclass that take a tuple
+    # of types for comparison.
+    # Deactivated because it can make the code slow:
+    # https://github.com/astral-sh/ruff/issues/7871
+    "TID252", # We allow relative imports to parent modules
+    "FBT002", # We allow boolean default positional args
+    "COM812", # Ruff docs recommend to disable since the formatter takes care of this
+    "S105", # Hardcoded passwords should be checked by humans
+]
+
+select = [
+    # alphasort: on
+    "A",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM",
+    "DJ",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "EXE",
+    "F",
+    "FA",
+    "FBT",
+    "FLY",
+    "G",
+    "I",
+    "ICN",
+    "INT",
+    "N",
+    "PD",
+    "PERF",
+    "PGH",
+    "PL",
+    "PTH",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "SLOT",
+    "T10",
+    "T20",
+    "TCH",
+    "TID",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+    'AIR',
+    'ANN',
+    'ARG',
+    'FURB',
+    'INP',
+    'ISC',
+    'LOG',
+    'NPY',
+    'PIE',
+    'PYI',
+    # alphasort: off
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+extend-unsafe-fixes = ["UP038"]
+unsafe-fixes = true
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

@@ -48,7 +48,6 @@ def test_alphasort_file(temp_file: str):
 
                 b
                 c
-                d
                 # alphasort: off
                 a
                 """
@@ -70,7 +69,6 @@ def test_alphasort_file(temp_file: str):
 
         b
         c
-        d
         # alphasort: off
         a
         """

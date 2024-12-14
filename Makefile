@@ -1,23 +1,23 @@
 install:
 	poetry install
 
-shell:
+activate:
 	poetry shell
 
 run:
-	poetry run python -m src.alphasort src --suffix test.py
+	poetry run alphasort
 
 test:
-	poetry run pytest tests
+	poetry run pytest -sxv
 
 lint:
-	poetry run ruff src tests
+	poetry run ruff check --fix
 
-typing:
-	poetry run mypy src tests
+type-check:
+	poetry run mypy .
 
 format:
-	poetry run black src tests
+	poetry run ruff format
 
 clean:
 	find . -name "*.pyc" -exec rm -f {} +
@@ -28,6 +28,19 @@ remove-venv:
 
 update:
 	poetry update
+
+add-dev:
+	poetry add --group dev $(package)
+
+bump:
+	poetry version patch
+
+deploy:
+	poetry build
+	poetry publish
+
+checks:
+	pre-commit run --all-files
 
 .PHONY: all
 all: install run
