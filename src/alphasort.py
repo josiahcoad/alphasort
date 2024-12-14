@@ -1,8 +1,11 @@
+# PYTHON_ARGCOMPLETE_OK
 import argparse
 import glob
 import logging
 import re
 from pathlib import Path
+
+import argcomplete
 
 delimiters_comment = {
     "#": [".py", ".sh", ".yaml", ".yml", ".rb", ".pl", ".r"],
@@ -120,6 +123,7 @@ def main() -> None:
         help="Increase verbosity (-v for INFO, -vv for DEBUG)",
     )
     parser.add_argument("--ignore", "-i", default="", help="path to ignore")
+    argcomplete.autocomplete(parser)
     args = parser.parse_args()
     setup_logging(args.verbose)
     process_directory(args.glob, args.ignore, verbose=args.verbose)

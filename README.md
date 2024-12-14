@@ -53,6 +53,12 @@ Also recommend adding it
 - to your pre-commit
 - to your CI checks
 
+### Argcomplete
+This project is equiped with argcomplete which you can enable via running this:
+
+`eval "$(register-python-argcomplete alphasort)"`
+
+
 ### P.S.
 This is inspired by other such macros like:
 ```
